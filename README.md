@@ -3,6 +3,7 @@ post /auth
 post /registration
 post /registrationFull - не надо было, но где брать данные для поиска по ФИО и проверять верифицированные?
 
+//требуется jwt
 post /v1/account/transfer
 
 post 	/v1/contactInfo/create
