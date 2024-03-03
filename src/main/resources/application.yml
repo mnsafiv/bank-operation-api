@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank-operation
+    username: postgres
+    password: msbt
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
+
+jwt:
+  secret-key: DDBCADF2481C76F86A1EAC7DBF1AEDDBCADF2481C76F86A1EAC7DBF1AE
+  expiration: 720m
+
+increase:
+  deposit:
+    time: 5m
+    value: 1.05
+    max: 2.07
+
+redis:
+  host: localhost
+  port: 6379
+
+
+
+

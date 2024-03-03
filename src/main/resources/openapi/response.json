@@ -1,0 +1,39 @@
+{
+  "forbiddenResponse": {
+    "code": 403,
+    "status": "Forbidden",
+    "message": "Forbidden"
+  },
+  "unauthorized": {
+    "code": 401,
+    "status": "unauthorized",
+    "message": "unauthorized"
+  },
+  "badRequestDefault": {
+    "code": 400,
+    "status": "Bad request",
+    "message": "Bad request"
+  },
+  "successResponseDefault": {
+    "code": 200,
+    "status": "success",
+    "message": "success"
+  },
+
+
+  "badRequestRegister": {
+    "code": 400,
+    "status": "Bad request",
+    "message": "Логин уже занят"
+  },
+  "successResponseRegister": {
+    "code": 200,
+    "status": "success",
+    "message": "Логин и Ид пользователя"
+  },
+  "badRequestRegisterFull": {
+    "code": 400,
+    "status": "Bad request",
+    "message": "Bad request"
+  }
+}

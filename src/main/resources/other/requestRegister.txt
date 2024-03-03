@@ -1,0 +1,6 @@
+{
+    "login":"user1",
+    "password":"password",
+    "contacts":["user21@example.ru","7(999)1111121"],
+    "balance":"100.00"
+}
