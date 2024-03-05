@@ -18,6 +18,7 @@ import ru.safonoviv.bankoperationapi.service.UserInfoService;
 import ru.safonoviv.bankoperationapi.service.UserService;
 import ru.safonoviv.bankoperationapi.util.SearchUtil;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,9 +30,7 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     private final UserService userService;
-    private final UserInfoService userInfoService;
     private final UserContactService userContactService;
-    private final SearchUtil searchUtil;
 
     @Operation(description = "Get client by id", responses = {
             @ApiResponse(responseCode = "200", ref = "successResponse"),
@@ -45,27 +44,15 @@ public class ClientController {
     @Operation(description = "Search client", responses = {
             @ApiResponse(responseCode = "200", ref = "successResponse"),
             @ApiResponse(responseCode = "400", ref = "badRequest"),
-            @ApiResponse(responseCode = "403", ref = "forbiddenResponse") })
+            @ApiResponse(responseCode = "403", ref = "forbiddenResponse")})
     @GetMapping("/search")
-    public ResponseEntity<?> searchClient(@RequestParam(name = "search") String search,
+    public ResponseEntity<?> searchClient(@RequestParam(name = "contact",required = false) String contact,
+                                          @RequestParam(name = "fullName",required = false) String fullName,
+                                          @RequestParam(name = "date",required = false) LocalDate date,
                                           @PageableDefault(value = 3)
                                           @SortDefault.SortDefaults({@SortDefault(sort = "id", direction = Sort.Direction.ASC)}) Pageable pageable) {
-        switch (searchUtil.searchType(search)) {
-            case email, phone -> {
-                UserContact userContact = userContactService.findByContact(search);
-                userService.getUserById(userContact.getId());
-                return ResponseEntity.ok(userService.getUserById(userContact.getId()));
-            }
-            case fullName -> {
-                Collection<Long> usersId = userInfoService.findUsersIdSorted(search, pageable);
-                Set<User> users = usersId.stream().map(userService::getUserById).collect(Collectors.toSet());
-                return ResponseEntity.ok(users);
-            }
-            default -> {
-                Collection<Long> usersId = userInfoService.findUsersIdSortedByDateOfBorn(search, pageable);
-                Set<User> users = usersId.stream().map(userService::getUserById).collect(Collectors.toSet());
-                return ResponseEntity.ok(users);
-            }
-        }
+        Collection<Long> search = userContactService.findBySearch(contact, fullName, date, pageable);
+        Set<User> users = search.stream().map(userService::getUserById).collect(Collectors.toSet());
+        return ResponseEntity.ok(search.stream().map(userService::getUserById).collect(Collectors.toSet()));
     }
 }
