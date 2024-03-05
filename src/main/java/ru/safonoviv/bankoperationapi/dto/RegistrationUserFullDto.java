@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class RegistrationUserFullDto {
     private String login;
     private String password;
     private List<String> contact;
-    private Float balance;
+    private float balance;
     private String firstName;
     private String secondName;
     private String middleName;

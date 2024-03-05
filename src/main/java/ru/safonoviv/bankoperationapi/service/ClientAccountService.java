@@ -38,11 +38,11 @@ public class ClientAccountService {
                 clientAccountRoot.get("balanceCurrent"),
                 leastValues);
 
-        Expression<Double> roundDeposit = cb.function("round", Double.class,
-                greatestValues,
-                cb.literal(2));
+//        Expression<Double> roundDeposit = cb.function("round", Double.class,
+//                greatestValues,
+//                cb.literal(2));
 
-        criteriaUpdateClientAccount.set("balanceCurrent", roundDeposit);
+        criteriaUpdateClientAccount.set("balanceCurrent", greatestValues);
 
         try {
             entityManager.createQuery(criteriaUpdateClientAccount).executeUpdate();
@@ -75,12 +75,12 @@ public class ClientAccountService {
         entityManager.createQuery(criteriaUpdateClientAccountReceiver).executeUpdate();
 
 
-        CriteriaQuery<Double> selectBalanceReceiver = cb.createQuery(Double.class);
+        CriteriaQuery<Float> selectBalanceReceiver = cb.createQuery(Float.class);
         Root<ClientAccount> clientRoot = selectBalanceReceiver.from(ClientAccount.class);
         selectBalanceReceiver.where(cb.equal(clientRoot.get("id"), senderId));
         selectBalanceReceiver.select(clientRoot.get("balanceCurrent"));
 
-        Double balance = entityManager.createQuery(selectBalanceReceiver).getSingleResult();
+        Float balance = entityManager.createQuery(selectBalanceReceiver).getSingleResult();
 
         if (balance < 0) {
             throw new ExceptionRollBack("Баланс отрицательный после транзакции: " + balance + " rollback", HttpStatus.BAD_REQUEST);

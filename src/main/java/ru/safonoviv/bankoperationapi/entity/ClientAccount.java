@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 @Entity
 @Getter
@@ -19,16 +20,16 @@ public class ClientAccount implements Serializable {
     @Column(name = "client_account_id")
     private Long id;
 
-    @Column(name = "client_account_balance_start")
-    private double balanceStart;
+    @Column(name = "client_account_balance_start", columnDefinition="Decimal(10,2)")
+    private Float balanceStart;
 
-    @Column(name = "client_account_balance_current")
-    private double balanceCurrent;
+    @Column(name = "client_account_balance_current", columnDefinition="Decimal(10,2)")
+    private Float balanceCurrent;
 
     @Column(name = "client_account_verified")
     private boolean verified;
 
-    @OneToOne(mappedBy = "clientAccount",fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "clientAccount", fetch = FetchType.EAGER)
     private User user;
 
 }
